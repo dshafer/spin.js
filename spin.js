@@ -326,43 +326,45 @@
  * multiple calls to spin() are fine, but they will create a new Spinner object each time.  The old one is disposed.
  */
 (function($){
-  $.fn.spin = function(opts) {
-    this.each(function() {
-      var $this = $(this),
-        data = $this.data();
+  if(typeof($) != 'undefined'){
+    $.fn.spin = function(opts) {
+      this.each(function() {
+        var $this = $(this),
+          data = $this.data();
 
-      if (data.spinner) {
-        data.spinner.stop();
-        delete data.spinner;
-      }
-      if (opts !== false) {
-        data.spinner = new Spinner($.extend({color: $this.css('color')}, opts)).spin(this);
-      }
-    });
-    return this;
-  };
-  
-  $.fn.respin = function() {
-    this.each(function() {
-      var $this = $(this),
-        data = $this.data();
+        if (data.spinner) {
+          data.spinner.stop();
+          delete data.spinner;
+        }
+        if (opts !== false) {
+          data.spinner = new Spinner($.extend({color: $this.css('color')}, opts)).spin(this);
+        }
+      });
+      return this;
+    };
+    
+    $.fn.respin = function() {
+      this.each(function() {
+        var $this = $(this),
+          data = $this.data();
 
-      if (data.spinner) {
-        data.spinner.spin();
-      }
-    });
-    return this;
-  };
-  
-  $.fn.stopSpin = function(opts) {
-    this.each(function() {
-      var $this = $(this),
-        data = $this.data();
+        if (data.spinner) {
+          data.spinner.spin();
+        }
+      });
+      return this;
+    };
+    
+    $.fn.stopSpin = function(opts) {
+      this.each(function() {
+        var $this = $(this),
+          data = $this.data();
 
-      if (data.spinner) {
-        data.spinner.stop();
-      }
-    });
-    return this;
-  };
+        if (data.spinner) {
+          data.spinner.stop();
+        }
+      });
+      return this;
+    };
+  }
 }(jQuery));
