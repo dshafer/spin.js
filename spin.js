@@ -1,5 +1,5 @@
 //fgnass.github.com/spin.js#v1.2.6
-!function(window, document, undefined) {
+(function(window, document, undefined) {
 
   /**
    * Copyright (c) 2011 Felix Gnass [fgnass at neteye dot de]
@@ -316,4 +316,53 @@
   else
     window.Spinner = Spinner
 
-}(window, document)
+}(window, document));
+
+
+/*
+ * JQuery plugin version
+ * adds $().spin(opts), $().stopSpin(), and $().respin
+ * respin re-uses the same spinner that was constructed earlier with spin()
+ * multiple calls to spin() are fine, but they will create a new Spinner object each time.  The old one is disposed.
+ */
+(function($){
+  $.fn.spin = function(opts) {
+    this.each(function() {
+      var $this = $(this),
+        data = $this.data();
+
+      if (data.spinner) {
+        data.spinner.stop();
+        delete data.spinner;
+      }
+      if (opts !== false) {
+        data.spinner = new Spinner($.extend({color: $this.css('color')}, opts)).spin(this);
+      }
+    });
+    return this;
+  };
+  
+  $.fn.respin = function() {
+    this.each(function() {
+      var $this = $(this),
+        data = $this.data();
+
+      if (data.spinner) {
+        data.spinner.spin();
+      }
+    });
+    return this;
+  };
+  
+  $.fn.stopSpin = function(opts) {
+    this.each(function() {
+      var $this = $(this),
+        data = $this.data();
+
+      if (data.spinner) {
+        data.spinner.stop();
+      }
+    });
+    return this;
+  };
+}(jQuery));
